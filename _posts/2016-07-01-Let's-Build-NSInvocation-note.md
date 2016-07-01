@@ -22,6 +22,7 @@ tags:
 <br/>
 
 ##Overview
+<p>
 NSInvocation对象代表一个方法调用。一个方法调用必须有target、selector、一堆参数及返回值。
 
 一个NSInvocation对象可以根据一个特定的object交互。我们平时编码时一般写作：
@@ -36,10 +37,14 @@ NSInvocation的相比于常见的方法调用，target、messgae及参数都是�
 
 NSInvocation总的来说有2个相互补充的业务逻辑：<br/>
 
-<li>*在某个方法调用是传递参数且获取返回值。*
-<li>*接收方法调用，获取参数，取得一个随意的返回值给调用者。*
+<li>在某个方法调用是传递参数且获取返回值。
+<li>接收方法调用，获取参数，取得一个随意的返回值给调用者。
 
+<br/>
+<br/>
+</p>
 ##Calling Conventions
+<br/>
 原文基于x86_64架构的调用协定，有兴趣可以查阅[Wikipedia](https://en.wikipedia.org/wiki/Calling_convention).
 总结x86_64一般使用16个通用寄存器，分别是rax, rbx, rcx, rdx, rbp, rsp, rsi, rdi, r8, r9, r10, r11, r12, r13, r14, and r15. 
  
@@ -50,12 +55,15 @@ NSInvocation总的来说有2个相互补充的业务逻辑：<br/>
 值得注意的是Objective-c语言方法调用时，前2个参数self，_cmd分别存储于rdi和rsi中（如果返回参数是larger struct时，向后移动就是rsi和rdx）。显式参数则在这两个隐式参数之后。
 
 ##Start
-
+<br/>
+<p>
 为了能完成一个function的调用，MAInvocation需要持有该function的参数，且将前6个参数存放在合适的寄存器之中，额外的参数存放在栈上，需要持有该function的实际内存地址。在处理返回值上，需要记录返回值在2个返回值寄存器中。
 
 为了能接收function的调用，MAInvocation需要记录前6个参数的寄存器值，sp寄存器的位置，且根据这些提取参数值。在处理返回值时，需要将返回值存放于2个返回值寄存器中。赋值到寄存器和栈上的逻辑代码可以使用Objective-c编写，但是操作寄存器和栈的代码只能使用汇编代码编写了。
-
+</p>
+<br/>
 ###数据结构
+<br/>
 为了能够使汇编代码和OC代码通信，MAInvocation定义了一个struct来持有所有的相关代码。当调用发生时，MAInvocation就能完美的创建这个struct对象，并和胶水代码交互。当接收到一个调用时，汇编语言的胶水代码会在当前的状态下构造出该struct对象，然后传递给OC代码。
 
 <pre class="prettyprint"><code>
@@ -139,7 +147,7 @@ void MAInvocationForward(void);
 void MAInvocationForwardStret(void);
 </code></pre>
 
-这些胶水代码都会使用汇编实现，且定义在 MAInvocation-asm.h 文件中。
+<p>这些胶水代码都会使用汇编实现，且定义在 MAInvocation-asm.h 文件中。</p>
 
 接下来看 MAInvocation-asm.s 文件中的具体汇编实现：
 定义一个全局的标签
@@ -320,8 +328,10 @@ ret
 </code></pre>
 
 **汇编代码就不过多分析了，详细请看注释。**
-
+<br/>
+<p>
 接下来看MAInvocation的定义：
+</p>
 <pre class="prettyprint"><code>@interface MAInvocation : NSObject
 
 + (MAInvocation *)invocationWithMethodSignature:(NSMethodSignature *)sig;
@@ -351,8 +361,12 @@ ret
 
 与NSInvocation无异。
 
+
+<br/>
+
 ###MAInvocation的实现
 
+<br/>
 ####入口
 <br/>
 **首先在initialize方法中注册handler**
@@ -363,6 +377,8 @@ ret
 </code></pre>
 
 ####private工具方法
+<br/>
+<p>
 target和selector的getter及setter方法此处就略过了，主要看private的方法。
 <pre class="prettyprint"><code>
 // 获取特定index的参数
@@ -389,7 +405,9 @@ target和selector的getter及setter方法此处就略过了，主要看private�
 </code></pre>
 
 这些工具方法都是为了处理返回值和参数时使用你给的。
-
+</p>
+<br/>
+<p>
 ####核心方法
 <pre class="prettyprint"><code>void MAInvocationForwardC(struct RawArguments *r)
 {
@@ -434,10 +452,14 @@ target和selector的getter及setter方法此处就略过了，主要看private�
 </code></pre>
 
 这里是根据自定义的RawArguments* 数据来构造MAInvocation对象，且调用。
+<br/>
+</p>
 
+<p>
 ##总结
 <br/>
 <li>汇编胶水代码实现方法调用时的参数、返回值及函数指针能正确的存储在寄存器和栈中。
 <li>MAInvocation在Initialize方法中指定objc_setForwardHandler的两个函数指针。
 <li>MAInvocationForwardC方法中根据struct RawArguments *来构造MAInvocation对象且调用。
 <li>MAInvocation中的各种逻辑处理（target、selector、返回值及参数的处理）。
+</p>
