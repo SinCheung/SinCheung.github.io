@@ -83,5 +83,11 @@ friends: [
     {
         title: "Mike Ash",
         href: "http://mikeash.com/pyblog/"
+    },{
+        title: "NSHipster",
+        href: "http://nshipster.com/"
+    },{
+        title: "Ray Wenderlich",
+        href: "https://www.raywenderlich.com/category/ios"
     }
 ]
