@@ -93,10 +93,11 @@ Tuple的详细知识请参考 [Tuples(Medium Link)](https://medium.com/swift-pro
 这四种抽象的范式的表示方式和上文中通过 swift 抽象的 `() -> ()` 有异曲同工之妙。  
 
 将上文中的进行一下操作: <br> 
->**1> `(() -> ()) -> (() -> ()) -> ... -> (() -> ())`   
-> 2> '1>' 表达式中 `()` 使用 `Event` 替换  
-> 3> `(Event1 -> ()) -> (Event2 -> ()) -> ... -> (EventN -> ())`，  
-> 4> '3>'表达式等同于 `Obserable` 的抽象。**
+
+> **1> `(() -> ()) -> (() -> ()) -> ... -> (() -> ())`   
+ 2> '1>' 表达式中 `()` 使用 `Event` 替换  
+ 3> `(Event1 -> ()) -> (Event2 -> ()) -> ... -> (EventN -> ())`，  
+ 4> '3>'表达式等同于 `Obserable` 的抽象。**
 
 #### Observer: Event -> ()
 `Observer` 等同于RAC中的 `subscriber`，当接收到一个`Event`时，就执行某些操作。类似于 swift 中的 `Sink` 协议。
@@ -118,6 +119,7 @@ Tuple的详细知识请参考 [Tuples(Medium Link)](https://medium.com/swift-pro
 
 ### Enumerator 升级  
 `() -> Event` 因为调用者必须得到一个`Event`，所以只能通过同步的方式去检索值，就造成阻塞当前线程，这是不好的方式。
+
 #### () -> Promise Event  
 `() -> Promise Event` 实现值通过异步的方式获取，封装每个结果到`Promise`中，然后在未来的某个时间点给我们提供`Event`。<br>
 同理，`() -> (() -> Event)` 变为 `() -> (() -> Promise Event)`。
