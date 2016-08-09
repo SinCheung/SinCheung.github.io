@@ -26,7 +26,7 @@ let f = fun(1)
 ```
 和Objective-C对比一下：
 
-```objective-c
+```swift
 - (int)fun:(int)num 
 {
 	return num + 1;
@@ -40,7 +40,7 @@ int f = [self fun:1];
 
 回想一下C语言的`函数指针`定义，可以定义一个函数指针为：
 
-```C
+```c
 typedef int (*funPointer)(int); // funPointer = int (*)(int)
 ```
 如果按此举一反三的话，那么 swift 版的 `fun` 就可以看成这样：
@@ -92,7 +92,7 @@ Tuple的详细知识请参考 [Tuples(Medium Link)](https://medium.com/swift-pro
 
 这四种抽象的范式的表示方式和上文中通过 swift 抽象的 `() -> ()` 有异曲同工之妙。  
 
-将上文中的进行一下操作：
+将上文中的进行一下操作: <br> 
 >**1> `(() -> ()) -> (() -> ()) -> ... -> (() -> ())`   
 > 2> '1>' 表达式中 `()` 使用 `Event` 替换  
 > 3> `(Event1 -> ()) -> (Event2 -> ()) -> ... -> (EventN -> ())`，  
