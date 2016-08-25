@@ -86,7 +86,7 @@ Tuple的详细知识请参考 [Tuples(Medium Link)](https://medium.com/swift-pro
 将函数式编程中的Event分为了：
 
 >* Observer（Push）: Event -> ()
-* Obserable（Push）: (Event -> ()) -> ()
+* Observable（Push）: (Event -> ()) -> ()
 * Enumerator（Pull）: () -> Event
 * Enumerable（Pull）: () -> (() -> Event)
 
@@ -97,24 +97,24 @@ Tuple的详细知识请参考 [Tuples(Medium Link)](https://medium.com/swift-pro
 > **1> `(() -> ()) -> (() -> ()) -> ... -> (() -> ())`   
  2> '1>' 表达式中 `()` 使用 `Event` 替换  
  3> `(Event1 -> ()) -> (Event2 -> ()) -> ... -> (EventN -> ())`，  
- 4> '3>'表达式等同于 `Obserable` 的抽象。**
+ 4> '3>'表达式等同于 `Observable` 的抽象。**
 
 #### Observer: Event -> ()
 `Observer` 等同于RAC中的 `subscriber`，当接收到一个`Event`时，就执行某些操作。类似于 swift 中的 `Sink` 协议。
 
-#### Obserable: (Event -> ()) -> ()
-在函数式编程中，函数作为一等公民，可以作为值传递，所以`Obserable`（RAC中的 `Signal`） 可以接受 `Observer`，当 `Observer` 在值传递过程中，也会执行某些操作。
+#### Observable: (Event -> ()) -> ()
+在函数式编程中，函数作为一等公民，可以作为值传递，所以`Observable`（RAC中的 `Signal`） 可以接受 `Observer`，当 `Observer` 在值传递过程中，也会执行某些操作。
 
 #### Enumerator: () -> Event
 到目前为止，这些都很好理解，然而硬币也有两面性，正如黑格尔的奥伏赫变一般，`Observer` 翻转 `->` 的方向，得到 `() -> Event`，
 即`Enumerator`，当其发生交互时，返回一个 `Event`。很类似于 swift 中的 `Generator` 协议。
 
 #### Enumerable: () -> (() -> Event)
-同样翻转`Obserable`的`->`得到 `() -> (() -> Event)`，即`Enumerable`。一个`Enumerable`（类似于`collection`）可以创建一组`Enumerator`，十分接近于 swift 中的 `Sequence` 协议。
+同样翻转`Observable`的`->`得到 `() -> (() -> Event)`，即`Enumerable`。一个`Enumerable`（类似于`collection`）可以创建一组`Enumerator`，十分接近于 swift 中的 `Sequence` 协议。
 
 #### Push & Pull
 
-* `Observer` 和 `Obserable`属于 Push 类型的，是生产者驱动的。
+* `Observer` 和 `Observable`属于 Push 类型的，是生产者驱动的。
 * `Enumerator` 和 `Enumerable` 属于 Pull 类型的，是消费者驱动的。
 
 ### Enumerator 升级  
