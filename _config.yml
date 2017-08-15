@@ -5,7 +5,7 @@ header-img: img/contact-bg.jpg
 email: zangxiaoxin+gmail.com
 description: "无限挑战!"
 keyword: ""
-url: "http://cheungxin.me"              # your host, for absolute URL
+url: "https://sincheung.github.io"              # your host, for absolute URL
 baseurl: ""         # for example, '/blog' if your blog hosted on 'host/blog'
 
 
@@ -62,7 +62,7 @@ duoshuo_share: true                     # set to false if you want to use Commen
 #ba_track_id:
 # Google Analytics
 #ga_track_id: ''            # Format: UA-xxxxxx-xx
-#ga_domain: cheungxin.me
+#ga_domain: https://sincheung.github.io
 
 
 
